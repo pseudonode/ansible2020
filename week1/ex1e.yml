@@ -1,0 +1,16 @@
+---
+network_devices:
+    - rtr1:
+        host:
+        username:
+        password:
+        device_type:
+        use_session_log:
+        ip_addresses:        
+    - rtr2:
+        host:
+        username:
+        password:
+        device_type:
+        use_session_log:
+        ip_addresses:

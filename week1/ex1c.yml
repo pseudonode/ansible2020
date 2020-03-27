@@ -1,0 +1,7 @@
+---
+rtr1:
+    host: rtr1.lab.com
+    username: admin
+    password: Password1
+    device_type: router
+    use_session_log: True
