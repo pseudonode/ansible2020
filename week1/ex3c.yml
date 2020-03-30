@@ -1,0 +1,17 @@
+---
+- name: First Play
+  hosts: localhost
+
+  tasks:
+    - debug:
+        var: ansible_host
+
+- name: Second Play
+  hosts: cisco
+  gather_facts: False
+
+  tasks:
+    - debug:
+        var: ansible_connection
+    - debug:
+        var: ansible_host

@@ -1,0 +1,8 @@
+---
+- name: First Play
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+    - debug:
+        var: ansible_host
