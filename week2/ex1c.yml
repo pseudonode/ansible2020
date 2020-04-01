@@ -1,0 +1,14 @@
+---
+- name: Facts Playbook
+  hosts: arista5
+  gather_facts: True
+
+  tasks:
+
+    - name: Print message with the hostname and ansible_network_os to stdout
+      debug:
+        msg: "The network OS of {{ansible_host}} is: {{ansible_network_os}}"
+
+    - name: Print desired EOS version
+      debug:
+        msg: "The desired EOS version is:{{ desired_eos_version }}"

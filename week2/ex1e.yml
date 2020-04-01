@@ -1,0 +1,23 @@
+---
+- name: Facts Playbook
+  hosts: arista5
+  gather_facts: True
+  vars_files: my_vars.yml
+
+  tasks:
+
+    - name: Print message with the hostname and ansible_network_os to stdout
+      debug:
+        msg: "The network OS of {{ansible_host}} is: {{ansible_network_os}}"
+
+    - name: Print desired EOS version
+      debug:
+        msg: "The desired EOS version is:{{ desired_eos_version }}"
+
+    - name: Set fact
+      set_fact:
+        device_hostname: "{{ inventory_hostname }}.lab.io"
+
+    - name: Print device hostname
+      debug:
+        var: device_hostname
