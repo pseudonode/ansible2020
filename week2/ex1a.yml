@@ -1,0 +1,17 @@
+---
+- name: Facts Playbook
+  hosts: arista5
+  gather_facts: True
+
+  tasks:
+    - name: Print ansible_facts to stdout
+      debug:
+        var: ansible_facts
+
+    - name: Print net_all_ipv4_addreses to stdout
+      debug:
+        var: ansible_facts.net_all_ipv4_addresses
+
+    - name: Print message with net_all_ipv4_addreses to stdout
+      debug:
+        msg: "The IPv4 address of {{ansible_host}} is: {{ansible_facts.net_all_ipv4_addresses[0]}}"
