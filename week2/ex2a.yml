@@ -1,0 +1,9 @@
+---
+- name: Print BGP ASN for cisco hosts
+  hosts: cisco
+  gather_facts: False
+
+  tasks:
+    - name: Use Debug to print BGP ASN on a host per host basis
+      debug:
+        msg: " The ASN for host {{ inventory_hostname }} is {{ bgp_asn }}"
