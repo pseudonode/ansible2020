@@ -1,0 +1,15 @@
+---
+- name: Execute show version through nxos_command
+  hosts: nxos
+  gather_facts: False
+  
+  tasks:
+  - name: Run show version command and register variable
+    nxos_command:
+      commands:
+        - show version
+    register: output
+
+  - name: Debug registered variable result
+    debug:
+      var: output
