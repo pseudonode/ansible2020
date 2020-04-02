@@ -1,0 +1,13 @@
+---
+- name: Clear logging buffer on Cisco IOS device
+  hosts: cisco6
+  gather_facts: False
+
+  tasks:
+    - name: Clear Buffer
+      ios_command:
+        commands: 
+          - command: 'clear logging'
+            prompt: 'confirm'
+            answer: 'y'
+      register: output
