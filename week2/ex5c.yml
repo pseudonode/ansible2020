@@ -1,0 +1,17 @@
+---
+- name: Junos show interfaces terse
+  hosts: juniper
+  gather_facts: False
+
+  tasks:
+    - name: show interfaces terse
+      junos_command: 
+        commands: show interfaces terse
+      register: output
+
+    - name: set variable with registered output
+      set_fact:
+        interfaces: "{{ output.stdout_lines[0][-1].split() }}"
+
+    - debug:
+        msg: " Primary IP: {{ interfaces[-1] }}"
