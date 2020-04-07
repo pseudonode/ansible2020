@@ -1,0 +1,21 @@
+---
+- name: Loop through vlan list and issue a show vlan id
+  hosts: nxos1
+  gather_facts: False
+  vars:
+    vlan_list:
+      - 1
+      - 2
+      - 3
+      - 4
+
+  tasks:
+    - name: Show vlan id with a loop
+      nxos_command:
+        commands: "show vlan id {{ item }}"
+      loop: "{{ vlan_list }}"
+      register: vlans
+
+    - name: Show vlan id output for vlan 4
+      debug:
+       var: vlans.results[3].stdout_lines

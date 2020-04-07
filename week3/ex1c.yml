@@ -1,0 +1,31 @@
+---
+- name: Conditional show commands
+  hosts: arista:cisco:juniper
+  gather_facts: False
+  
+  tasks:
+    - name: Run eos command
+      eos_command:
+        commands: show ip arp
+      when: ansible_network_os == 'eos'
+      register: eos_show_ip_arp
+      tags: eos
+
+    - name: Run ios command
+      ios_command:
+        commands: show ip arp
+      when: ansible_network_os == 'ios'
+      register: ios_show_ip_arp
+      tags: ios
+
+    - name: Run junos command
+      junos_command:
+        commands: show arp
+      when: ansible_network_os == 'junos'
+      register: junos_show_ip_arp
+      tags: junos
+
+    - name: Print ARP output
+      debug:
+        var: eos_show_ip_arp.stdout_lines
+      when: ansible_network_os == 'eos'
