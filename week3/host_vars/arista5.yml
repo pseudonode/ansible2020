@@ -1,0 +1,31 @@
+---
+vlan1_ip_address: 10.220.88.32
+vlan1_netmask: 24
+interfaces:
+  - Ethernet1:
+      mode: none
+      portfast: True
+  - Ethernet2:
+      mode: access
+      vlan_id: 2
+      portfast: False
+  - Ethernet3:
+      mode: access
+      vlan_id: 3
+      portfast: False
+  - Ethernet4:
+      mode: access
+      vlan_id: 4
+      portfast: False
+  - Ethernet5:
+      mode: access
+      vlan_id: 5
+      portfast: False
+  - Ethernet6:
+      mode: access
+      vlan_id: 6
+      portfast: False
+  - Ethernet7:
+      mode: access
+      vlan_id: 7
+      portfast: False
