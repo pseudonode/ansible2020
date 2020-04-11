@@ -21,8 +21,7 @@ vlan 2-7
 interface {{ interfaces }}
 {% if name.mode == 'access'  %}
    switchport access vlan {{ name.vlan_id }}
-{% endif %}
-{% if name.portfast %}
+{% elif name.portfast %}
    spanning-tree portfast
    spanning-tree cost 1
 {% endif %}

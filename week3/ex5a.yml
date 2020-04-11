@@ -1,0 +1,10 @@
+---
+- name: Generate BGP Configurations
+  hosts: nxos
+  gather_facts: False
+
+  tasks:
+  - name: Generate interface configuration
+    template:
+      src: "./TEMPLATES/nxos_interfaces.j2"
+      dest: "./CFGS/{{ inventory_hostname }}_config.txt"

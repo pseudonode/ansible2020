@@ -16,8 +16,6 @@
   - name: Extract LLDP entry from list of lines
     set_fact:
       lldp_entry: "{{ lldp[5] }}"
-    #loop: "{{ lldp  }}"
-    #when: "'twb-sf-hpsw1' in item"
 
   - name: Set lldp variables from the .split() output
     set_fact:
