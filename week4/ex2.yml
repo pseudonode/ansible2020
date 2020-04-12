@@ -1,0 +1,11 @@
+---
+- name: Configure DNS settings
+  hosts: cisco1
+  gather_facts: False
+
+  tasks:
+  - name: Configure DNS parameters via ios_system module
+    ios_system:
+      hostname: "{{ hostname }}"
+      domain_name: "{{ domain_name }}"
+      name_servers: "{{ name_servers }}"

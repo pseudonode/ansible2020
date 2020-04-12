@@ -1,0 +1,19 @@
+---
+- name: Configure login banner
+  hosts: cisco
+  gather_facts: False
+
+  tasks:
+    - name: ios_banner
+      ios_banner:
+        banner: login
+        text: |
+          This is a login banner
+          configured by Ansible!!!!!!
+        state: present
+      notify: write mem
+
+  handlers:
+    - name: write mem
+      ios_command:
+        commands: write mem
