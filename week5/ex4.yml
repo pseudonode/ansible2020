@@ -1,0 +1,17 @@
+---
+- name: Deploy Jinja2 generated configurations to target devices
+  hosts: nxos
+  gather_facts: False
+
+  tasks:
+  - name: Push configurations to devices via nxos_config
+    nxos_config:
+      src: "../week3/CFGS/{{ inventory_hostname }}-config.txt"
+      
+  - name: Validate BGP neighborship
+    nxos_command:
+      commands: show ip bgp summary
+    register: bgp
+
+  - debug:
+      var: bgp.stdout_lines[0]

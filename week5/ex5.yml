@@ -1,0 +1,17 @@
+---
+- name: Test user via SSH key
+  hosts: cisco1:cisco2
+  gather_facts: False
+
+  tasks:
+  - name: show users
+    ios_command:
+      commands: show users
+    register: users
+
+  - debug:
+      var: users.stdout[0]
+
+  - assert:
+      that: 
+        - ansible_user in users.stdout[0]

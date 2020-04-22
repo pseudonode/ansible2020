@@ -1,0 +1,8 @@
+---
+- name: Configure NTP and DNS settings in cisco / arista / nxos hosts
+  hosts: arista:cisco:nxos
+  gather_facts: True
+
+  tasks:
+  - debug:
+      var: ansible_facts

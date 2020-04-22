@@ -1,0 +1,60 @@
+---
+- name: Configure NTP and DNS settings in cisco / arista / nxos hosts
+  hosts: arista:cisco:nxos
+  gather_facts: True
+
+  tasks:
+  - name: Implement changes in cisco IOS hosts
+    ios_config:
+      lines:
+        - "ip name-server {{ dns_server1 }}"
+        - "ip name-server {{ dns_server2 }}"
+        - "ip domain name {{ domain_name }}"
+        - "ntp server {{ ntp_server1 }}"
+        - "ntp server {{ ntp_server2 }}"
+    when: ansible_facts.net_iostype is defined and
+          ansible_facts.net_iostype == "IOS"
+
+  - name: Implement changes in cisco IOS-XE hosts
+    ios_config:
+      lines:
+        - "ip domain name {{ domain_name }}" 
+        - "ip name-server {{ dns_server1 }} {{ dns_server2 }}" 
+        - "ntp server {{ ntp_server1 }}" 
+        - "ntp server {{ ntp_server2 }}" 
+    when: ansible_facts.net_iostype is defined and
+          ansible_facts.net_iostype  == 'IOS-XE'
+
+  - name: Implement changes in arista hosts
+    eos_config:
+      lines:
+        - "ntp server {{ ntp_server1 }}" 
+        - "ntp server {{ ntp_server2 }}" 
+        - "ip domain-list {{ domain_name }}" 
+        - "ip name-server {{ ntp_server1 }}"
+        - "ip name-server {{ ntp_server2 }}"
+    when: ansible_facts.net_system  == 'eos'
+
+  - name: Implement changes in nexus hosts
+    nxos_config:
+      lines:
+        - "ip domain-name {{ domain_name }}"
+        - "ip name-server {{ dns_server1 }} {{ dns_server2 }}"
+        - "ntp server {{ ntp_server1 }} use-vrf management"
+        - "ntp server {{ ntp_server2 }} use-vrf default" 
+    when: ansible_facts.net_system  == 'nxos'
+
+
+- name: Configure Juniper devices
+  hosts: juniper
+  gather_facts: False
+
+  tasks:
+  - name: Configure SRX
+    junos_config:
+      lines:
+        - "set system name-server {{ dns_server1 }}"
+        - "set system name-server {{ dns_server2 }}"
+        - "set system domain-name {{ domain_name }}"
+        - "set system ntp server {{ ntp_server1 }}"
+        - "set system ntp server {{ ntp_server2 }}"
