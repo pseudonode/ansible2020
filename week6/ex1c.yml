@@ -1,0 +1,12 @@
+---
+- name: Include task with tags within inner playbook
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+  - name: include_task with derived var name
+    include_tasks: "{{ include2 }}"
+    tags:
+      - debug1
+      - debug2
+      - debug3

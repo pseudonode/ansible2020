@@ -1,0 +1,10 @@
+---
+- name: Import task with tags within inner playbook
+  hosts: localhost
+  gather_facts: False
+  vars:
+    import2: import2.yml
+
+  tasks:
+  - name: import_task with derived var name
+    import_tasks: "{{ import2 }}"

@@ -1,0 +1,15 @@
+---
+- name: Include task with name derived from host_vats
+  hosts: localhost
+  gather_facts: False
+  vars:
+    ip_addresses:
+      - 10.1.1.1
+      - 10.1.1.2
+      - 10.1.1.3
+      - 10.1.1.4
+
+  tasks:
+  - name: include_task with derived var name
+    include_tasks: "{{ include1 }}"
+    loop: "{{ ip_addresses }}"

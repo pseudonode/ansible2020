@@ -1,0 +1,11 @@
+- debug:
+    msg: "This is Message 1"
+  tags: debug1
+
+- debug:
+    msg: "This is Message 2"
+  tags: debug2
+
+- debug:
+    msg: "This is Message 3"
+  tags: debug3

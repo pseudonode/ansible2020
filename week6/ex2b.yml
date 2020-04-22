@@ -1,0 +1,10 @@
+---
+- name: Import Task 2
+  hosts: localhost
+  gather_facts: False
+  vars:
+    import2: import2.yml
+
+  tasks:
+  - name: import task
+    import_tasks: "{{ import2 }}"

@@ -1,0 +1,8 @@
+---
+- name: Testing import_tasks
+  hosts: localhost
+  gather_facts: False
+
+  tasks:
+    - name: Import task
+      import_tasks: import1.yml
