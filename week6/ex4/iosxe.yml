@@ -1,0 +1,9 @@
+---
+- name: Configure domain name
+  ios_config:
+    lines:
+      - ip name-server 1.1.1.1 2.2.2.2
+      - ip domain name bogus.com
+      - ntp server 130.126.24.24
+      - ntp server 152.2.21.1
+  tags: iosxe

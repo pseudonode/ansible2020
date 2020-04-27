@@ -1,0 +1,14 @@
+---
+vrfs:
+ - name: blue
+   rd: "65000:1"
+
+ - name: red
+   rd: "65000:2"
+
+vrf_interfaces:
+  - name: Loopback98
+    vrf: blue   
+
+  - name: Loopback99
+    vrf: red

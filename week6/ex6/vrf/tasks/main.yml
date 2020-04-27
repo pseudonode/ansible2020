@@ -1,0 +1,4 @@
+---
+- name: Configure VRF Definitions
+  ios_config:
+    src: ./templates/vrf.j2

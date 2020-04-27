@@ -1,5 +1,5 @@
 ---
-- name: Include task with name derived from host_vats
+- name: Include task with name derived from host_vars
   hosts: localhost
   gather_facts: False
   vars:

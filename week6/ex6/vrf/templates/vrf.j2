@@ -1,0 +1,10 @@
+{% for vrf in vrfs %}
+ip vrf {{ vrf.name }}
+ rd {{ vrf.rd }}
+!
+{% endfor %}
+{% for interface in vrf_interfaces %}
+interface {{ interface.name }}
+ ip vrf forwarding {{ interface.vrf }}
+!
+{% endfor %}

@@ -1,0 +1,6 @@
+---
+- name: Configure NTP in ios / ios-xe / nxos / arista devices
+  hosts: cisco:nxos:arista
+  gather_facts: True
+  roles: 
+    - NTP

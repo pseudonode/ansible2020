@@ -1,0 +1,28 @@
+---
+- name: Configure DDI Settings using import_tasks and conditionals
+  hosts: cisco:arista:nxos
+  gather_facts: True
+
+  tasks:
+  #- debug:
+  #    var: ansible_facts
+   
+  - name: Configure dns / domain-name / ntp for IOS hosts
+    import_tasks: ios.yml
+    when:   ansible_facts.net_iostype is defined and ansible_facts.net_iostype == "IOS"
+    tags: ios
+
+  - name: Configure dns / domain-name / ntp for IOS-XE hosts
+    import_tasks: iosxe.yml
+    when: ansible_facts.net_iostype is defined and ansible_facts.net_iostype == "IOS-XE"
+    tags: iosxe
+
+  - name: Configure dns / domain-name / ntp for Arista hosts
+    import_tasks: arista.yml
+    when: ansible_facts.net_version == "eos"
+    tags: arista
+  
+  - name: Configure dns / domain-name / ntp for NXOS hosts
+    import_tasks: nxos.yml
+    when: ansible_facts.net_version == "nxos"
+    tags: nxos

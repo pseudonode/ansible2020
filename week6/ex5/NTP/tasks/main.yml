@@ -1,0 +1,13 @@
+---
+# tasks file for NTP
+- ios_config:
+    src: "templates/{{ ansible_network_os }}.j2"
+  when: ansible_network_os == "ios"
+
+- nxos_config:
+    src: "templates/{{ ansible_network_os }}.j2"
+  when: ansible_network_os == "nxos"
+
+- eos_config:
+    src: "templates/{{ ansible_network_os }}.j2"
+  when: ansible_network_os == "eos"
