@@ -1,5 +1,3 @@
 ---
 include1: include1.yml
 include2: include2.yml
-import1: import1.yml
-import2: import2.yml

@@ -3,8 +3,8 @@
   hosts: localhost
   gather_facts: False
   vars:
-    import2: import2.yml
+    import1: import1.yml
 
   tasks:
   - name: import task
-    import_tasks: "{{ import2 }}"
+    import_tasks: "{{ import1 }}"

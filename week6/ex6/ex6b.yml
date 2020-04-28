@@ -1,0 +1,9 @@
+---
+- name: Configure VRF settings via role
+  hosts: cisco5:cisco6
+  gather_facts: False
+ 
+  tasks:
+    - name: Import vrf role
+      import_role:
+        name: vrf

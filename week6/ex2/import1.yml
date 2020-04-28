@@ -1,5 +1,5 @@
 - debug:
-    msg: "{{ item }}"
+    msg: " IP Address: {{ item }}"
   loop:
     - 10.1.1.1
     - 10.1.1.2

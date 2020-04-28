@@ -10,3 +10,7 @@
       - debug1
       - debug2
       - debug3
+
+  - name: include_task with derived var name
+    include_tasks: "{{ include2 }}"
+    tags: always
