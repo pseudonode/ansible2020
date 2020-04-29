@@ -1,0 +1,21 @@
+---
+- name: Parse unstructured data via ntc_parse filter and validate show vlan output results
+  hosts: arista
+  gather_facts: False
+  vars:
+    command: "show vlan"
+    platform: "arista_eos"
+    username: azevedo
+    textfsm_index: "/home/{{ username }}/ntc-templates/templates/"
+
+  tasks:
+  - name: Show vlans
+    eos_command:
+      commands: "{{ command }}"
+    register: show_vlans
+
+  - set_fact:
+      result: "{{ show_vlans.stdout[0] | ntc_parse(command, platform, textfsm_index) }}"
+
+  - debug:
+      var: result

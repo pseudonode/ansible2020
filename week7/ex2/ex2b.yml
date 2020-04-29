@@ -1,0 +1,23 @@
+---
+- name: Week 7 - Ex1 - Block / Rescue / Always
+  hosts: arista  
+  gather_facts: False
+
+  tasks:
+    - block:
+        - name: Configure DNS with wrong credentials
+          vars:
+            ansible_ssh_pass: "wrongpassword"
+          eos_config:
+            lines:
+              - "ip name-server {{ dns_server1 }}"
+              - "ip name-server {{ dns_server2 }}"
+
+      rescue:
+      - name: Configure DNS Servers with correct credentials
+        vars:
+          ansible_ssh_pass: "{{lookup('env','ANSIBLE_PASSWORD')}}"
+        eos_config:
+          lines:
+            - "ip name-server {{ dns_server1 }}" 
+            - "ip name-server {{ dns_server2 }}" 

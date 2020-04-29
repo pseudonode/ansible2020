@@ -1,0 +1,25 @@
+---
+- name: Parse unstructured data via TextFSM template and validate BGP output results
+  hosts: nxos
+  gather_facts: False
+  vars:
+    template_dir: "~/ntc-templates/templates/"
+    template: "/home/azevedo/ntc-templates/templates/cisco_nxos_show_ip_bgp_summary.textfsm"
+
+  tasks:
+  - name: Show IP bgp summary
+    nxos_command:
+      commands: show ip bgp summary
+    register: bgp_output
+
+  - set_fact:
+      bgp_output: "{{ bgp_output.stdout[0] | parse_cli_textfsm(template) }}"
+
+  - debug:
+      var: bgp_output
+
+  - assert:
+      that:
+        - "{{ bgp_output[0]['STATE_PFXRCD'] }} != 'Shut'"
+        - "{{ bgp_output[0]['STATE_PFXRCD'] }} != 'Idle'"
+        - "{{ bgp_output[0]['STATE_PFXRCD'] | int }} >= 2"

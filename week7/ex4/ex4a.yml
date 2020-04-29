@@ -1,0 +1,21 @@
+---
+- name: Parse via Genie - show interface
+  hosts: nxos
+  gather_facts: False
+  collections:
+    - clay584.genie
+  vars:
+    command: "show interface"
+
+  tasks:
+  - name: Grab show interface output
+    nxos_command:
+      commands:
+        - "{{ command }}"
+    register: output
+
+  - set_fact:
+      genie_parse: "{{ output.stdout.0 | clay584.genie.parse_genie(command=command, os=ansible_network_os) }}"
+
+  - debug:
+      var: genie_parse
