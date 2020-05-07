@@ -1,0 +1,23 @@
+---
+- name: NXOS interface L3 config
+  hosts: nxos
+  gather_facts: False
+
+  tasks:
+  - name: Configure interface 
+    nxos_l3_interfaces:
+      config:
+        - name: "{{ e1_4_interface }}"
+          ipv4:
+            - address: "{{ e1_4_subnet }}/{{ e1_4_mask }}"
+      state: merged
+
+  - name: Ping adjacent switch
+    net_ping:
+      dest: "{{ e1_4_neighbor_ip }}"
+    register: ping
+
+  - name: Assert that ping count is bigger than 80%
+    assert: 
+      that:
+        - ping.packets_rx >= 4

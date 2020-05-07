@@ -1,0 +1,5 @@
+---
+l2_access_interfaces:
+  - name: Ethernet5
+    vlan_id: 210
+      

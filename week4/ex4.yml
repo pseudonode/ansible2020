@@ -1,0 +1,36 @@
+---
+- name: Configure EOS l2 definitions
+  hosts: arista
+  gather_facts: False
+
+  tasks:
+  - name: Create VLANS on arista switches
+    eos_vlan:
+      vlan_id: "{{ item.id }}"
+      name: "{{ item.name }}"
+    loop: "{{ vlans }}"
+
+  - name: Associate VLAN IDs with access interfaces
+    eos_l2_interfaces:
+      config:
+        - name: "{{ item.name }}"
+          access:
+            vlan: "{{ item.vlan_id }}"
+      state: merged
+    loop: "{{ l2_access_interfaces }}"
+
+  - name: show vlan exists and interface is configured
+    eos_command:
+      commands: show vlan|json
+    register: result
+
+  - set_fact:
+      vlan_validation: '{{ result.stdout[0].vlans["210"]["interfaces"] }}'
+
+  - debug:
+      var: vlan_validation
+
+  - assert:
+      that: 
+        #"{{ result.stdout[0][vlans][210][interfaces] }} == 'Ethernet5'"
+        vlan_validation["Ethernet5"]

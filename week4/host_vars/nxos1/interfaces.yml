@@ -1,0 +1,6 @@
+---
+e1_4_interface: Ethernet1/4
+e1_4_subnet: 10.227.10.1
+e1_4_mask: 24
+e1_4_neighbor: nxos2
+e1_4_neighbor_ip: 10.227.10.2
