@@ -1,0 +1,26 @@
+---
+- name: Exercise 5b - Regex Search
+  hosts: arista
+  gather_facts: False
+
+  tasks:
+  - name: Execute show version command
+    eos_command:
+      commands:
+        - show version
+    register: output
+
+  - debug:
+      var: output
+
+  - set_fact:
+      output: "{{ output.stdout[0] }}"
+
+  - debug:
+      msg: "{{ output }}"
+
+  - set_fact:
+      parsed_version: "{{ output | regex_search('^Software image version: (\\S+)', '\\1', multiline=True) }}"
+
+  - debug:
+      msg: "The OS version of {{ inventory_hostname }} is: {{ parsed_version[0] }}"
