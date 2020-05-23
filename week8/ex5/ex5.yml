@@ -1,0 +1,68 @@
+---
+- name: Configure VLANS on nxos1
+  hosts: nxos1
+  gather_facts: False
+  tasks:
+    - nxos_vlans:
+        config:
+          - vlan_id: 100
+            name: blue100
+          - vlan_id: 101
+            name: blue101
+        state: merged
+
+- name: Configure VLANS on nxos2
+  hosts: nxos2
+  gather_facts: False
+  tasks:
+    - nxos_vlans:
+        config:
+          - vlan_id: 200 
+            name: blue200
+          - vlan_id: 201 
+            name: blue201
+        state: merged
+
+- name: Verify VLAN Output
+  hosts: nxos
+  gather_facts: False
+  tasks:
+    - name: Retrieve the switching table as JSON
+      nxos_command:
+        commands: show vlan | json
+      register: output
+
+
+    - debug: 
+        var: output
+
+
+    - set_fact:
+        vlan_dict: "{{ output.stdout[0].TABLE_vlanbrief.ROW_vlanbrief }}"
+
+
+    - name: Use map to extract the two relevant fields
+      set_fact:
+        vlans: "{{ vlan_dict | map(attribute='vlanshowbr-vlanid') | list }}"
+
+
+    - debug:
+        msg: "{{ vlans }}"
+
+
+    - name: Common VLANS
+      debug:
+        msg: "The common VLANS on both devices are {{ vlans | intersect(hostvars['nxos2']['vlans']) }}"
+      when: inventory_hostname == 'nxos1'
+
+
+    - name: Unique VLANS on nxos1
+      debug:
+        msg: "The unique VLANS configured on nxos1 are: {{ vlans | difference(hostvars['nxos2']['vlans']) }}"
+      when: inventory_hostname == 'nxos1'
+
+
+    - name: Unique VLANS on nxos2
+      debug:
+        msg: "The unique VLANS configured on nxos2 are: {{ vlans | difference(hostvars['nxos1']['vlans']) }}"
+      when: inventory_hostname == 'nxos2'

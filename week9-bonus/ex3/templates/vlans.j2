@@ -1,0 +1,6 @@
+{% for item in vlans %}
+!
+vlan {{ item.number }}
+   name {{ item.name }}
+{% endfor %}
+{% include "interfaces.j2" %}

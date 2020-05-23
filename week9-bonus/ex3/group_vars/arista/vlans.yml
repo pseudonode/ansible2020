@@ -1,0 +1,14 @@
+---
+vlans:
+  - number: 202
+    name: blue202
+  - number: 203
+    name: blue203
+  - number: 204
+    name: blue204
+  - number: 205
+    name: blue205
+  - number: 206
+    name: blue206
+  - number: 207
+    name: blue207

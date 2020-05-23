@@ -1,0 +1,17 @@
+---
+- name: Arista play with environment variables
+  hosts: arista
+  gather_facts: False
+  vars:
+    ansible_user: "{{ lookup('env', 'ANSIBLE_USER') }}"
+    ansible_ssh_pass: "{{ lookup('env', 'ANSIBLE_PASSWORD') }}"
+
+  tasks:
+  - name: Execute Show vlan command 
+    eos_command:
+      commands:
+        - show vlan
+    register: output
+
+  - debug:
+      var: output.stdout_lines.0

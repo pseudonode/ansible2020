@@ -1,0 +1,38 @@
+---
+- name: Arista - Convert Output to a dictionary
+  hosts: arista
+  gather_facts: False
+
+  tasks:
+  - name: Gather mac address table
+    eos_command:
+      commands:
+        - show mac address-table | json
+    register: output
+
+  - name: Grab ARP table output
+    set_fact:
+      arp_table: "{{ output.stdout_lines[0]['unicastTable']['tableEntries'] }}"
+
+  - debug:
+      var: arp_table
+
+  - name: Create equal length lists
+    set_fact:
+        mac_address: "{{ arp_table | map(attribute='macAddress') | list }}"
+        interface: "{{ arp_table | map(attribute='interface') | list }}"
+
+  - name: Create a list of lists using the zip filter
+    set_fact:
+      zipped_list: "{{ mac_address | zip(interface) | list }}"
+
+  - debug:
+      var: zipped_list
+
+  - name: Create Dictionary
+    set_fact: 
+      dict_mac_intf: "{{ dict(zipped_list) }}"
+
+  - debug:
+      var: dict_mac_intf
+

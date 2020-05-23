@@ -1,0 +1,33 @@
+---
+- name: Give me a list of MAC Addresses 
+  hosts: arista
+  gather_facts: False
+
+  tasks:
+  - name: Obtain MAC address table
+    eos_command:
+      commands:
+        - show mac address-table | json
+    register: output
+
+  - debug:
+      var: output
+
+  - name: Grab command output
+    set_fact:
+      mac_table: "{{ output.stdout_lines[0]['unicastTable']['tableEntries'] }}"
+
+  - debug: 
+      var: mac_table
+
+  - debug: 
+      msg: "{{ item['macAddress'] }}"
+    loop: "{{ mac_table }}"
+
+  - name: Create me a list of MAC addresses
+    set_fact:
+       mac_list: "{{ mac_list | default([]) + [item['macAddress']] }}"
+    loop: "{{ mac_table }}"
+
+  - debug:
+      msg: "{{ mac_list }}"

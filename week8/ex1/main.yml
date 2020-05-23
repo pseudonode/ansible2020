@@ -1,0 +1,29 @@
+---
+- name: combine filter
+  hosts: nxos1
+  gather_facts: False 
+  vars:
+    template: "/home/azevedo/ntc-templates/templates/cisco_nxos_show_lldp_neighbors.textfsm"
+
+  tasks:
+  - name: Run show lldp neighbors
+    nxos_command:
+      commands:
+        - show lldp neighbors
+    register: output
+
+  - name: Set fact
+    set_fact:
+      lldp: "{{ output.stdout.0 | parse_cli_textfsm(template) }}"
+
+  - name: Debug captured output
+    debug:
+      var: lldp
+
+  - name: Create map
+    set_fact:
+      lldp_map: "{{ lldp_map | default({}) | combine({item['LOCAL_INTERFACE']: item['NEIGHBOR']}) }}"
+    loop: "{{ lldp }}"
+
+  - debug:
+      var: lldp_map

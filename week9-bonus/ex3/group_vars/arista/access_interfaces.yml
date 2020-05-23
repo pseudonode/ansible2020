@@ -1,0 +1,14 @@
+---
+accessports:
+  - name: Ethernet2
+    vlan: 202
+  - name: Ethernet3
+    vlan: 203
+  - name: Ethernet4
+    vlan: 204
+  - name: Ethernet5
+    vlan: 205
+  - name: Ethernet6
+    vlan: 206
+  - name: Ethernet7
+    vlan: 207

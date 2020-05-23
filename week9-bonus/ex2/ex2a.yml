@@ -1,0 +1,29 @@
+---
+- name: Get LLDP mappings via NAPALM
+  hosts: arista:cisco
+  gather_facts: False
+
+  tasks:
+  - name: Get NAPALM  Facts
+    napalm_get_facts:
+      filter:
+        - "lldp_neighbors"
+      dev_os: "{{ dev_os }}"
+
+  - set_fact:
+      lldp_neighbors: "{{ napalm_lldp_neighbors | dict2items }}"
+      var: lldp_neighbors
+
+  - name: Generate a string containing interface and lldp neighbor for further output
+    set_fact:
+      lldp_string: "{{ lldp_string | default('') + item['value'][0]['port'] + ': ' + item['value'][0]['hostname'] + '\n' }}"
+    loop: "{{ lldp_neighbors }}"
+    loop_control:
+      label: ""
+
+  - debug:
+      msg: |
+        ********* LLDP table for {{ inventory_hostname }} ***********
+        {{ lldp_string }}
+        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        

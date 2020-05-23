@@ -1,0 +1,29 @@
+---
+- name: Configuration archive via NAPALM
+  hosts: cisco:arista:juniper
+  gather_facts: False
+
+  tasks:
+  - name: Retrieve Configurations
+    napalm_get_facts:
+      dev_os: "{{ ansible_network_os }}"
+      filter: config
+    register: output
+
+  - debug: 
+      var: output
+
+  - name: Create Configuration backup folders
+    file:
+      path: "./BUP/{{ ansible_network_os}}"
+      state: directory
+
+  - name: Create Configuration backup files
+    file:
+      path: "./BUP/{{ ansible_network_os}}/{{ ansible_host }}.conf"
+      state: touch
+
+  - name: Copy backup configurations to target file
+    copy:
+      content: "{{ output['ansible_facts']['napalm_config']['running'] }}"
+      dest: "./BUP/{{ ansible_network_os}}/{{ ansible_host }}.conf"

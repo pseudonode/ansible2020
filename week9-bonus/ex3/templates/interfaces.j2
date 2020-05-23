@@ -1,0 +1,5 @@
+{% for item in accessports %}
+!
+interface {{ item.name }}
+   switchport access vlan {{ item.vlan }}
+{% endfor %}
